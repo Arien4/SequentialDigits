@@ -25,30 +25,19 @@ public class Main {
         List<Integer> list = sequentialDigits(low, high);
         System.out.println(Arrays.toString(list.toArray()));
     }
+
     public static List<Integer> sequentialDigits(int low, int high) {
+        String digits = "123456789";
         List<Integer> result = new ArrayList<>();
-        int i = low;
-        while (i <= high) {
 
-            int prevRest = i % 10;
-            while (prevRest == 0 || prevRest < (int) (Math.log10(prevRest) + 1)) {i++; break;}
-            int temp = i / 10;
+        int lowLen = String.valueOf(low).length();
+        int highLen = String.valueOf(high).length();
 
-            int rest;
-            boolean seqI = true;
-            while (temp > 0) {
-                rest = temp % 10;
-
-                if (prevRest - rest != 1) {
-                    seqI = false;
-                    break;
-                }
-                temp = temp / 10;
-                prevRest = rest;
-
+        for (int i = lowLen; i <= highLen; i++) {
+            for (int j = 0; j < 10 - i; j++) {
+                int num = Integer.parseInt(digits.substring(j, j + i));
+                if (num >= low && num <= high) result.add(num);
             }
-            if (seqI) result.add(i);
-            i++;
         }
         return result;
     }
